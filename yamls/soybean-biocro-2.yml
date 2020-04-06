@@ -31,9 +31,10 @@ model:
             name: ../soybean_deriv_modules.txt
             filetype: pandas
             no_header: true
-    outputs:
-        - name: result
-          send_converter: binary
-          default_file:
-            name: result.txt
-            filetype: pandas
+## Currently not working
+#    outputs:
+#        - name: result
+#          send_converter: pandas
+#          default_file:
+#            name: result.txt
+#            filetype: pandas
