@@ -34,7 +34,7 @@ model:
 ## Currently not working
 #    outputs:
 #        - name: result
-#          send_converter: pandas
+##          send_converter: pandas
 #          default_file:
 #            name: result.txt
 #            filetype: pandas
