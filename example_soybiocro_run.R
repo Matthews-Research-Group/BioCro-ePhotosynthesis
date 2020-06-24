@@ -42,10 +42,16 @@ source(paste0(filepath,'soybean_initial_state.R'))
 
 # soybean_parameters
 source(paste0(filepath,'soybean_parameters.R'))
+soybean_parameters$rateSeneRoot <- 0
+soybean_parameters$rateSeneRhizome <- 0
+soybean_parameters$alphaSeneRoot <- 10
+soybean_parameters$alphaSeneRhizome <- 10
+soybean_parameters$betaSeneRoot <- -10
+soybean_parameters$betaSeneRhizome <- -10
 
 
 solver_params <- list(
-  type = 'Gro_rkck54',
+  type = 'Gro_rsnbrk',
   output_step_size = 1.0,
   adaptive_rel_error_tol = 1e-6,
   adaptive_abs_error_tol = 1e-6,

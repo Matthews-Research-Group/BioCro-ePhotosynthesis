@@ -1,0 +1,19 @@
+model:
+    name: server # C3 Leaf
+    language: matlab
+    args: server.m
+    is_server: True
+
+model:
+    name: client # biocro
+    language: R
+    args:
+     - client.R
+     -
+    client_of: server
+    outputs: result
+
+connections:
+    input:
+    output:
+    in_temp:
