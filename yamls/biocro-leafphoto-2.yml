@@ -1,8 +1,29 @@
 model:
-    name: Soybean-BioCro2
+    name: server # LeafPhoto model
+    language: matlab
+    args: ../models/C3-metabolic-and-leaf-model/Leaf_biocro.m
+    function: Leaf_biocro
+    is_server: true
+    inputs:
+        - name: Einput
+          default_file:
+            name: ../models/C3-metabolic-and-leaf-model/GrCM_output.txt
+            transform:
+                transformtype: select_fields
+                selected: Glyma_ID,Ele:Amb
+            filetype: pandas
+        - name: Eio
+          default_file:
+            name: ../models/C3-metabolic-and-leaf-model/Einput7.txt
+            filetype: pandas
+            no_header: true
+
+model:
+    name: client #BioCro
     language: R
     args: ../Gro_wrapper.R
     function: Gro_wrapper
+    client_of: server
     inputs:
         - name: initial_state
           recv_converter: pandas
@@ -12,7 +33,7 @@ model:
         - name: parameters
           recv_converter: pandas
           default_file:
-            name: ../soybean_parameters_ephoto.txt
+            name: ../soybean_parameters.txt
             filetype: pandas
         - name: varying_parameters
           recv_converter: pandas

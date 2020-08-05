@@ -1,7 +1,7 @@
 model:
     name: C3Leaf # C3 Leaf
     language: matlab
-    args: Leaf_biocro.m
+    args: ../models/C3-metabolic-and-leaf-model/Leaf_biocro.m
     function: Leaf_biocro
     is_server: true
 
