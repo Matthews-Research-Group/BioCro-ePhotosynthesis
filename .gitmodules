@@ -2,3 +2,6 @@
 	path = biocro-dev
 	url = https://github.com/ebimodeling/biocro-dev.git
 	branch = soybean-biocro
+[submodule "models/C3-metabolic-and-leaf-model"]
+	path = models/C3-metabolic-and-leaf-model
+	url = https://github.com/leighmatth/C3-metabolic-and-leaf-model.git
