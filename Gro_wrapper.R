@@ -3,8 +3,14 @@ library(BioCro)
 # library(reshape2)
 
 Gro_wrapper <- function(initial_state, parameters, varying_parameters, steady_state_module_names, derivative_module_names){
-
-  result <- Gro_solver(initial_state, parameters, varying_parameters, steady_state_module_names, derivative_module_names)
+  solver_params <- list(
+    type = 'Gro_rkck54',
+    output_step_size = 1.0,
+    adaptive_rel_error_tol = 1e-4,
+    adaptive_abs_error_tol = 1e-4,
+    adaptive_max_steps = 200)
+  
+  result <- Gro_solver(initial_state, parameters, varying_parameters, steady_state_module_names, derivative_module_names, solver_params)
 
   # col.palette.muted <- c("#332288", "#117733", "#999933", "#882255")
   # size.title <- 24
