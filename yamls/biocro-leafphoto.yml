@@ -1,19 +1,56 @@
 model:
-    name: server # C3 Leaf
+    name: C3Leaf # C3 Leaf
     language: matlab
-    args: server.m
-    is_server: True
+    args: Leaf_biocro.m
+    function: Leaf_biocro
+    is_server: true
 
 model:
-    name: client # biocro
+    name: BioCro # biocro
     language: R
-    args:
-     - client.R
-     -
+    args: ../Gro_wrapper
+    function: Gro_wrapper
     client_of: server
-    outputs: result
 
 connections:
-    input:
-    output:
-    in_temp:
+    # C3Leaf connections
+    -input: ../models/C3-metabolic-and-leaf-model/Einput7.txt
+     output: C3Leaf:Eio
+     filetype: pandas
+#     outside_loop: true
+     no_header: true
+    -input: ../models/C3-metabolic-and-leaf-model/GRCM_output.txt
+     output: C3Leaf:Einput
+     transform:
+        transformtype: select_fields
+        selected: Glyma_ID,Ele:Amb
+     filetype: pandas
+     
+     # BioCro connections
+    -input: ../soybean_initital_state_ephoto.txt
+     output: BioCro:initial_state
+     filetype: pandas
+     recv_converter: pandas
+    -input: ../soybean_parameters_ephoto.txt
+     output: BioCro:parameters
+     filetype: pandas
+     recv_converter: pandas
+    -input: ../soybean_weather_2002doy202.txt
+     output: BioCro:varying_parameters
+     filetype: pandas
+     recv_converter: pandas
+    -input: ../soybean_ss_modules_ephoto.txt
+     output: BioCro:stead_state_module_names
+     filetype: pandas
+     no_header: true
+     recv_converter: table
+    -input: ../soybean_deriv_modules.txt
+     output: BioCro:derivative_module_names
+     filetype: pandas
+     no_header: true
+     recv_converter: table
+    -input: BioCro:result
+     output: result.txt
+     filetype: pandas
+     send_converter: pandas
+
