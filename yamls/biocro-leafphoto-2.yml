@@ -6,6 +6,7 @@ model:
     is_server: true
     inputs:
         - name: Einput
+          outside_loop: true
           default_file:
             name: ../models/C3-metabolic-and-leaf-model/GrCM_output.txt
             transform:
@@ -13,6 +14,7 @@ model:
                 selected: Glyma_ID,Ele:Amb
             filetype: pandas
         - name: Eio
+          outside_loop: true
           default_file:
             name: ../models/C3-metabolic-and-leaf-model/Einput7.txt
             filetype: pandas
@@ -27,27 +29,32 @@ model:
     inputs:
         - name: initial_state
           recv_converter: pandas
+          outside_loop: true
           default_file:
             name: ../soybean_initial_state.txt
             filetype: pandas
         - name: parameters
           recv_converter: pandas
+          outside_loop: true
           default_file:
             name: ../soybean_parameters.txt
             filetype: pandas
         - name: varying_parameters
           recv_converter: pandas
+          outside_loop: true
           default_file:
             name: ../soybean_weather_2002growingseason.txt
             filetype: pandas
         - name: steady_state_module_names
           recv_converter: table
+          outside_loop: true
           default_file:
             name: ../soybean_ss_modules.txt
             filetype: pandas
             no_header: true
         - name: derivative_module_names
           recv_converter: table
+          outside_loop: true
           default_file:
             name: ../soybean_deriv_modules.txt
             filetype: pandas
