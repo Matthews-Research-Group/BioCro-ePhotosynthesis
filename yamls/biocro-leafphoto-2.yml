@@ -1,11 +1,18 @@
-model:
-    name: server # LeafPhoto model
+models:
+  - name: server # LeafPhoto model
     language: matlab
     args: ../models/C3-metabolic-and-leaf-model/Leaf_biocro.m
     function: Leaf_biocro
-    is_server: true
+    is_server:
+      input: BioCro_params
+      output: LeafAssim
     inputs:
+        - name: BioCro_params
+          default_file:
+            name: ../BioCro_params.txt
+            filetype: map
         - name: Einput
+          outside_loop: true
           default_file:
             name: ../models/C3-metabolic-and-leaf-model/GrCM_output.txt
             transform:
@@ -13,13 +20,18 @@ model:
                 selected: Glyma_ID,Ele:Amb
             filetype: pandas
         - name: Eio
+          outside_loop: true
           default_file:
             name: ../models/C3-metabolic-and-leaf-model/Einput7.txt
             filetype: pandas
             no_header: true
+    outputs:
+      - name: LeafAssim
+        default_file:
+          name: ./LeafBiocroOut.txt
+          filetype: table
 
-model:
-    name: client #BioCro
+  - name: client #BioCro
     language: R
     args: ../Gro_wrapper.R
     function: Gro_wrapper

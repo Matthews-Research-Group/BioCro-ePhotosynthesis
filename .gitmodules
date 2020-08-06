@@ -5,6 +5,8 @@
 [submodule "models/C3-metabolic-and-leaf-model"]
 	path = models/C3-metabolic-and-leaf-model
 	url = https://github.com/leighmatth/C3-metabolic-and-leaf-model.git
+	branch = biocro_leafphoto
 [submodule "models/biocro-dev"]
 	path = models/biocro-dev
 	url = https://github.com/ebimodeling/biocro-dev.git
+	branch = origin/ephoto_biocro
