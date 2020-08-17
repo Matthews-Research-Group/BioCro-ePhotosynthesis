@@ -41,7 +41,7 @@ models:
           recv_converter: pandas
           outside_loop: true
           default_file:
-            name: ../soybean_initial_state_ephoto.txt
+            name: ../soybean_state_ephoto_doy202hr7.txt
             filetype: pandas
         - name: parameters
           recv_converter: pandas
@@ -53,7 +53,7 @@ models:
           recv_converter: pandas
           outside_loop: true
           default_file:
-            name: ../soybean_weather_2002doy202hrs0800_1500.txt
+            name: ../soybean_weather_2002doy202hrs0800_0900.txt
             filetype: pandas
         - name: steady_state_module_names
           recv_converter: table
