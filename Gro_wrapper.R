@@ -4,7 +4,7 @@ library(BioCro)
 
 Gro_wrapper <- function(initial_state, parameters, varying_parameters, steady_state_module_names, derivative_module_names){
   solver_params <- list(
-    type = 'Gro_rkck54',
+    type = 'Gro_euler',
     output_step_size = 1.0,
     adaptive_rel_error_tol = 1e-4,
     adaptive_abs_error_tol = 1e-4,
