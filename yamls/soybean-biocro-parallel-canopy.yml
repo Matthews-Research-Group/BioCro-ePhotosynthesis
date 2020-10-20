@@ -1,5 +1,5 @@
 model:
-    name: Soybean-BioCro2
+    name: Soybean-BioCro-Parallel
     language: R
     args: ../Gro_wrapper.R
     function: Gro_wrapper
@@ -7,28 +7,28 @@ model:
         - name: initial_state
           recv_converter: pandas
           default_file:
-            name: ../soybean_initial_state.txt
+            name: ../parameter_files/soybean_initial_state.txt
             filetype: pandas
         - name: parameters
           recv_converter: pandas
           default_file:
-            name: ../soybean_parameters_farquhar.txt
+            name: ../parameter_files/soybean_parameters_farquhar.txt
             filetype: pandas
         - name: varying_parameters
           recv_converter: pandas
           default_file:
-            name: ../soybean_weather_2002growingseason.txt
+            name: ../parameter_files/soybean_weather_2002growingseason.txt
             filetype: pandas
         - name: steady_state_module_names
           recv_converter: table
           default_file:
-            name: ../soybean_ss_modules_parallel.txt
+            name: ../parameter_files/soybean_ss_modules_parallel.txt
             filetype: pandas
             no_header: true
         - name: derivative_module_names
           recv_converter: table
           default_file:
-            name: ../soybean_deriv_modules.txt
+            name: ../parameter_files/soybean_deriv_modules.txt
             filetype: pandas
             no_header: true
     outputs:

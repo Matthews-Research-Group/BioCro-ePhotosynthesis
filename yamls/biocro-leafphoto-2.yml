@@ -9,7 +9,7 @@ models:
     inputs:
         - name: BioCro_params
           default_file:
-            name: ../BioCro_params.txt
+            name: ../parameter_files/BioCro_params.txt
             filetype: map
         - name: Einput
           outside_loop: true
@@ -41,32 +41,32 @@ models:
           recv_converter: pandas
           outside_loop: true
           default_file:
-            name: ../soybean_state_ephoto_doy202hr7.txt
+            name: ../parameter_files/soybean_state_ephoto_doy202hr7.txt
             filetype: pandas
         - name: parameters
           recv_converter: pandas
           outside_loop: true
           default_file:
-            name: ../soybean_parameters_ephoto.txt
+            name: ../parameter_files/soybean_parameters_ephoto.txt
             filetype: pandas
         - name: varying_parameters
           recv_converter: pandas
           outside_loop: true
           default_file:
-            name: ../soybean_weather_2002doy202hrs0800_1500.txt
+            name: ../parameter_files/soybean_weather_2002doy202hrs0800_1500.txt
             filetype: pandas
         - name: steady_state_module_names
           recv_converter: table
           outside_loop: true
           default_file:
-            name: ../soybean_ss_modules_ephoto.txt
+            name: ../parameter_files/soybean_ss_modules_ephoto.txt
             filetype: pandas
             no_header: true
         - name: derivative_module_names
           recv_converter: table
           outside_loop: true
           default_file:
-            name: ../soybean_deriv_modules.txt
+            name: ../parameter_files/soybean_deriv_modules.txt
             filetype: pandas
             no_header: true
     outputs:
