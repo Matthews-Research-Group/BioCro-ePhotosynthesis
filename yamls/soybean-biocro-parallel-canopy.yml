@@ -12,7 +12,7 @@ model:
         - name: parameters
           recv_converter: pandas
           default_file:
-            name: ../soybean_parameters_ephoto.txt
+            name: ../soybean_parameters_farquhar.txt
             filetype: pandas
         - name: varying_parameters
           recv_converter: pandas
@@ -22,7 +22,7 @@ model:
         - name: steady_state_module_names
           recv_converter: table
           default_file:
-            name: ../soybean_ss_modules.txt
+            name: ../soybean_ss_modules_parallel.txt
             filetype: pandas
             no_header: true
         - name: derivative_module_names
@@ -35,5 +35,5 @@ model:
         - name: result
           send_converter: pandas
           default_file:
-            name: result.txt
+            name: result_biocro_parallel_canopy.txt
             filetype: pandas
