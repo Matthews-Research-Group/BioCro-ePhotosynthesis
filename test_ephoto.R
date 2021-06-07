@@ -4,7 +4,7 @@ library(BioCro)
 
 year <- '2002' # other options: '2004', '2005', '2006'
 
-filepath <- "/Users/yufeng/Desktop/UIUC/Research/BioCro-ePhotosynthesis/biocro-dev/data/Soybean/"
+filepath <- "./models/biocro-dev/data/Soybean/"
 
 ## Load weather data for growing season from specified year
 weather <- read.csv(file = paste0(filepath,'weather/', year, '_Bondville_IL_daylength.csv'))
