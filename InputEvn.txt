@@ -1,1 +1,4 @@
-../../BioCro-ePhotosynthesis_MM/InputEvn.txt
+CO2	400
+PAR	2000
+SucPath	0
+daylength 14
