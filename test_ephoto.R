@@ -1,11 +1,6 @@
 library(BioCro)
 #library(reshape2)
 #library(ggplot2)
-restart = TRUE 
-run_days = 30
-run_hours = run_days * 24
-start_day = 242 #starting day of year, minimal from the sowdate! 
-end_day   = start_day+run_days-1
 
 year <- '2002' # other options: '2004', '2005', '2006'
 
@@ -20,13 +15,23 @@ harvestdate <- dates$harvest[which(dates$year == year)] #291 #270 #280 #288
 sd.ind <- which(weather$doy == sowdate)[1]
 hd.ind <- which(weather$doy == harvestdate)[24]
 
+#------------------------
+restart = FALSE #whether the first day of current period of run is RESTART or NOT 
+run_days = 30
+run_hours = run_days * 24
+start_day = 272 #starting day of year, minimal from the sowdate! 
+end_day   = start_day+run_days-1
+#------------------------
+
+if(start_day>sowdate) restart = TRUE
+
 finished_days = start_day - sowdate #count from the sowdate
 if(finished_days<0) stop("incorrect start day!") 
 finished_hours = finished_days *24
 beg_ind = finished_hours+1
 end_ind = finished_hours + run_hours 
-out_filename = paste0("daily_outputs_run2/results_ephoto_",start_day,"_",end_day)
-last_filename = paste0("daily_outputs_run2/results_ephoto_",start_day-30,"_",start_day-1,"_day30.rds")
+out_filename = paste0("daily_outputs_run3_fixed_light/results_ephoto_",start_day,"_",end_day)
+last_filename = paste0("daily_outputs_run3_fixed_light/results_ephoto_",start_day-30,"_",start_day-1,"_day30.rds")
 
 print(paste("sow,start and end days are",sowdate,start_day,end_day))
 
@@ -80,7 +85,6 @@ source(paste0(filepath,'soybean_initial_state.R'))
 #soybean_parameters$betaSeneRhizome <- -10
 soybean_parameters = read.table("parameter_files/soybean_parameters_farquhar.txt",header=TRUE)
 
-
 solver_params <- list(
   type = 'Gro_euler',
   output_step_size = 1.0,
@@ -117,6 +121,7 @@ for (i in 1:run_days){
 #read in the results from the last step
    last_filename = outfile_i 
    result_last   = readRDS(last_filename)
+   restart = TRUE  #After the first day, it must be a Restart!!!!!
 }
 
 print("Successfully done!")
