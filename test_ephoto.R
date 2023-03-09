@@ -1,4 +1,4 @@
-library(BioCro)
+library(BioCroEphoto)
 #library(reshape2)
 #library(ggplot2)
 
@@ -16,11 +16,14 @@ sd.ind <- which(weather$doy == sowdate)[1]
 hd.ind <- which(weather$doy == harvestdate)[24]
 
 #------------------------
+#Currently, NO need to change "restart" since it's automatically addressed below!!
+#
 restart = FALSE #whether the first day of current period of run is RESTART or NOT 
-run_days = 30
+run_days = 100 
 run_hours = run_days * 24
-start_day = 272 #starting day of year, minimal from the sowdate! 
+start_day = 182 #starting day of year, minimal from the sowdate! 
 end_day   = start_day+run_days-1
+output_folder = "results_run1"
 #------------------------
 
 if(start_day>sowdate) restart = TRUE
@@ -30,8 +33,8 @@ if(finished_days<0) stop("incorrect start day!")
 finished_hours = finished_days *24
 beg_ind = finished_hours+1
 end_ind = finished_hours + run_hours 
-out_filename = paste0("daily_outputs_run3_fixed_light/results_ephoto_",start_day,"_",end_day)
-last_filename = paste0("daily_outputs_run3_fixed_light/results_ephoto_",start_day-30,"_",start_day-1,"_day30.rds")
+out_filename = paste0(output_folder,"/results_ephoto_fix1_",start_day,"_",end_day)
+last_filename = paste0(output_folder,"/results_ephoto_",start_day-30,"_",start_day-1,"_day30.rds")
 
 print(paste("sow,start and end days are",sowdate,start_day,end_day))
 
