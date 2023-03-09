@@ -1,7 +1,7 @@
 # BioCro-ePhotosynthesis
 Coupled BioCro and ePhotosynthesis(C++) through linking the dynamic library.
 
-Tested on `MacOS 11.3.1` with `x86_64-apple-darwin13.4.0-clang`
+Tested on `MacOS 11.3.1` with `x86_64-apple-darwin13.4.0-clang` and `linux` on biocluster with `GCC/.8.2.0`
 ### Prerequisites: 
 - miniconda/anaconda - (optional but recommended)
 - R
@@ -11,7 +11,7 @@ Tested on `MacOS 11.3.1` with `x86_64-apple-darwin13.4.0-clang`
 - yggdrasil - (optional. This is needed for compilation only if some BioCro modules require it)
 - [ePhotosynthesis(C++)](https://github.com/cropsinsilico/ePhotosynthesis_C/tree/C3-leaf-model_ori) 
 ### Building
-- build the ePhotosynthesis C++ version. (Make sure to build the version on the branch **C3-leaf-model_ori**)
+- build the ePhotosynthesis C++ version. (Make sure to build the version on the branch **SoybeanParameterization**)
   
   If successful, You should see a file named **libePhotosynthesis.dylib** or **libePhotosynthesis.so** in the **build** folder.
 - build the BioCro. (Make sure to build the version on the branch **biocro-ephoto-YH**)
