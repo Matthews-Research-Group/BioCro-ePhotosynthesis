@@ -1,13 +1,15 @@
 library(BioCroEphoto)
 
-year <- '2002' # other options: '2004', '2005', '2006'
+year <- '2004' # other options: '2004', '2005', '2006'
 
 ## Load weather data for growing season from specified year
 weather <- soybean_weather[[year]] 
-dates <- data.frame("year" = 2001:2006,"sow" = c(143,152,147,149,148,148), "harvest" = c(291, 288, 289, 280, 270, 270))
+dates <- data.frame("year" = 2001:2006,
+                    "sow"     = c(143, 152, 147, 149, 148, 148), 
+                    "harvest" = c(291, 288, 289, 289, 270, 270))
 
-sowdate <- dates$sow[which(dates$year == year)] #143 #148 #149 #152
-harvestdate <- dates$harvest[which(dates$year == year)] #291 #270 #280 #288
+sowdate <- dates$sow[which(dates$year == year)] #
+harvestdate <- dates$harvest[which(dates$year == year)] #
 sd.ind <- which(weather$doy == sowdate)[1]
 hd.ind <- which(weather$doy == harvestdate)[24]
 
@@ -17,11 +19,11 @@ weather <- weather[sd.ind:hd.ind,]  #growing season
 #Currently, NO need to change "restart" since it's automatically addressed below!!
 #
 restart = FALSE # Whether the first day of current period of run is RESTART or NOT 
-run_days  = 136  # Total number of days to run 
+run_days  = harvestdate - sowdate  # Total number of days to run 
 run_hours = run_days * 24 #Total hours
-start_day = 152   #152 #starting day of year, minimal from the sowdate! 
+start_day = sowdate #152 #starting day of year, minimal from the sowdate! 
 end_day   = start_day+run_days-1
-output_folder = "results_ephoto_v2_continued_DOY"  #the folder to save daily outputs
+output_folder = paste0("results_ephoto_sen_",year)  #the folder to save daily outputs
 #------------------------
 
 if(start_day>sowdate) restart = TRUE
@@ -35,7 +37,7 @@ beg_ind = finished_hours+1  #begin of index for weather
 #this is because in BioCro, the output of hour x has the label at hour x+1! 
 end_ind = min(finished_hours + run_hours +1, dim(weather)[1]) #end of index for weather 
 
-out_filename_prefix  = paste0(output_folder,"/results_ephoto_full_")
+out_filename_prefix  = paste0(output_folder,"/results_ephoto_")
 if(restart){
   #if it's restart, then we start with the DOY one day before the start_day
   last_filename = paste0(output_folder,"/results_ephoto_full_doy",start_day-1,".rds")
@@ -60,20 +62,6 @@ soybean_parameters = soybean$parameters
 
 solver_params <- soybean$ode_solver  
 solver_params$type = 'homemade_euler'
-
-#last_filename = "results_ephoto_v2/results_ephoto_full_152_251_day1.rds"
-#        result_last   = readRDS(last_filename)
-#        init_vars = names(soybean_initial_state)
-#        x_sub = result_last[,init_vars]
-#        last_values = x_sub[dim(x_sub)[1],]
-#
-##get the last day's record to use as initial
-#        soybean_initial_state_last = soybean_initial_state
-#        for (ii in 1:length(soybean_initial_state)){
-#                soybean_initial_state_last[[ii]] = as.numeric(last_values[ii])
-#        }
-#print(soybean_initial_state_last)
-#stop()
 
 #loop through the number of run days
 for (i in 1:run_days){
