@@ -1,6 +1,6 @@
 library(BioCroEphoto)
 
-year <- '2004' # other options: '2004', '2005', '2006'
+year <- '2002' # other options: '2004', '2005', '2006'
 
 ## Load weather data for growing season from specified year
 weather <- soybean_weather[[year]] 
@@ -23,7 +23,7 @@ run_days  = harvestdate - sowdate  # Total number of days to run
 run_hours = run_days * 24 #Total hours
 start_day = sowdate #152 #starting day of year, minimal from the sowdate! 
 end_day   = start_day+run_days-1
-output_folder = paste0("results_ephoto_sen_",year)  #the folder to save daily outputs
+output_folder = paste0("results_ephoto_Pi25_",year)  #the folder to save daily outputs
 #------------------------
 
 if(start_day>sowdate) restart = TRUE
