@@ -1,19 +1,41 @@
 library(BioCroEphoto)
+# turn this on to have increased Temperature and CO2
+test_T_and_CO2 = FALSE 
 
-year <- '2002' # other options: '2004', '2005', '2006'
+year <- '2013' # 
+
+#2002:2015
+weather_path = "/home/n-z/yufenghe/Soybean-BioCro-Sensitivity/Sensitivity_run/WeatherData/"
 
 ## Load weather data for growing season from specified year
-weather <- soybean_weather[[year]] 
+weather_path = paste0(weather_path,year) 
+weather = read.csv(paste0(weather_path,"/",year,"_Bondville_IL_daylength.csv")) 
+#these dates were provided in MLM's paper
+#For other years, I simply used same dates took from this paper:https://doi.org/10.1093/jxb/erw435
 dates <- data.frame("year" = 2001:2006,
                     "sow"     = c(143, 152, 147, 149, 148, 148), 
                     "harvest" = c(291, 288, 289, 289, 270, 270))
-
-sowdate <- dates$sow[which(dates$year == year)] #
-harvestdate <- dates$harvest[which(dates$year == year)] #
-sd.ind <- which(weather$doy == sowdate)[1]
-hd.ind <- which(weather$doy == harvestdate)[24]
+if(year<=2006){
+  sowdate <- dates$sow[which(dates$year == year)] #
+  harvestdate <- dates$harvest[which(dates$year == year)] #
+  sd.ind <- which(weather$doy == sowdate)[1]
+  hd.ind <- which(weather$doy == harvestdate)[24]
+}else{
+  sowdate = 158 
+  harvestdate = 275
+  sd.ind <- which(weather$doy == sowdate)[1]
+  hd.ind <- which(weather$doy == harvestdate)[24]
+}
 
 weather <- weather[sd.ind:hd.ind,]  #growing season
+#needed by module BioCro:solar_position_michalsky
+if(!"time_zone_offset" %in% colnames(weather))
+{
+  print('no time zone offset exists in weather data. Adding one...')
+  weather$time_zone_offset = -6
+}
+
+if(test_T_and_CO2) weather$temp = weather$temp + 3
 
 #------------------------
 #Currently, NO need to change "restart" since it's automatically addressed below!!
@@ -23,7 +45,7 @@ run_days  = harvestdate - sowdate  # Total number of days to run
 run_hours = run_days * 24 #Total hours
 start_day = sowdate #152 #starting day of year, minimal from the sowdate! 
 end_day   = start_day+run_days-1
-output_folder = paste0("results_ephoto_Pi25_",year)  #the folder to save daily outputs
+output_folder = paste0("results_ephoto_Pi30_ctl_",year)  #the folder to save daily outputs
 #------------------------
 
 if(start_day>sowdate) restart = TRUE
@@ -59,6 +81,13 @@ soybean_initial_state = soybean$initial_values
 
 # soybean_parameters
 soybean_parameters = soybean$parameters 
+#soybean_parameters$absorptivity_par = 0.4 
+#soybean_parameters$atmospheric_transmittance = 0.6 
+if(test_T_and_CO2){
+ soybean_parameters$Catm = 600 
+}else{
+ soybean_parameters$Catm = 400 
+}
 
 solver_params <- soybean$ode_solver  
 solver_params$type = 'homemade_euler'
