@@ -1,11 +1,11 @@
 library(BioCroEphoto)
 # turn this on to have increased Temperature and CO2
-test_T_and_CO2 = FALSE 
+test_T_and_CO2 = TRUE 
+test_T = FALSE 
 
-year <- '2013' # 
+year <- '2015' # 
 
-#2002:2015
-weather_path = "/home/n-z/yufenghe/Soybean-BioCro-Sensitivity/Sensitivity_run/WeatherData/"
+weather_path = "weather_data/NASA_data/BioCroInputs/site_1_2010_2022.csv"
 
 ## Load weather data for growing season from specified year
 weather_path = paste0(weather_path,year) 
@@ -35,7 +35,7 @@ if(!"time_zone_offset" %in% colnames(weather))
   weather$time_zone_offset = -6
 }
 
-if(test_T_and_CO2) weather$temp = weather$temp + 3
+if(test_T_and_CO2 | test_T) weather$temp = weather$temp + 3
 
 #------------------------
 #Currently, NO need to change "restart" since it's automatically addressed below!!
@@ -45,7 +45,7 @@ run_days  = harvestdate - sowdate  # Total number of days to run
 run_hours = run_days * 24 #Total hours
 start_day = sowdate #152 #starting day of year, minimal from the sowdate! 
 end_day   = start_day+run_days-1
-output_folder = paste0("results_ephoto_Pi30_ctl_",year)  #the folder to save daily outputs
+output_folder = paste0("results_ephoto_Pi30_T3CO2_sen10_",year)  #the folder to save daily outputs
 #------------------------
 
 if(start_day>sowdate) restart = TRUE
