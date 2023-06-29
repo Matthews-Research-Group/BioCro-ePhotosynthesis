@@ -1,2 +1,0 @@
-Rhizome	Leaf	Stem	Root	Grain	soil_water_content	LeafN	TTc	LeafLitter	RootLitter	RhizomeLitter	StemLitter	rhizome_senescence_index	cws1	cws2	DVI
-1e-07	0.06312	0.00789	0.00789	1e-05	0.32	2	0	0	0	0	0	0	0.32	0.32	-1

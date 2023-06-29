@@ -1,4 +1,0 @@
-model:
-    name: Soybean-BioCro
-    language: R
-    args: ../example_soybiocro_run.R
