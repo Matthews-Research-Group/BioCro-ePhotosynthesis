@@ -1,37 +1,47 @@
 # BioCro-ePhotosynthesis
-Coupled BioCro and ePhotosynthesis(C++) through linking the dynamic library.
+Coupled BioCro and ePhotosynthesis (C++) through linking dynamic libraries.
 
 Tested on `MacOS 11.3.1` with `x86_64-apple-darwin13.4.0-clang` and `linux` on biocluster with `GCC/.8.2.0`
 ### Prerequisites: 
 - miniconda/anaconda - (optional but recommended)
 - R
-- ccache - (optional)
+- BioCro
+- ePhotosynthesis(C++)
 - cmake
-- [BioCro](https://github.com/cropsinsilico/BioCro-ePhotosynthesis/tree/biocro-ephoto-YH)
-- yggdrasil - (optional. This is needed for compilation only if some BioCro modules require it)
-- [ePhotosynthesis(C++)](https://github.com/cropsinsilico/ePhotosynthesis_C/tree/C3-leaf-model_ori) 
+
+### Clone this repository
+```
+git clone https://github.com/Matthews-Research-Group/BioCro-ePhotosynthesis.git --recursive
+```
+If you forgot the --recursive the flag, you can do this to get the submodules,
+```
+git submodule update --init
+```
+
 ### Building
 - build the ePhotosynthesis C++ version. (Make sure to build the version on the branch **SoybeanParameterization**)
-  
-  If successful, You should see a file named **libePhotosynthesis.dylib** or **libePhotosynthesis.so** in the **build** folder.
-- build the BioCro. (Make sure to build the version on the branch **biocro-ephoto-YH**)
   ```
-  git clone --recurse-submodules https://github.com/cropsinsilico/BioCro-ePhotosynthesis.git
-  git checkout biocro-ephoto-YH
-  git submodule update --recursive
+  cd models/ePhotosynthesis_C
+  ```
+  The ePhotosynthesis C++ uses CMAKE to manage the compilation. Please follow the README on its Github page to install the package. I suggest to use Conda to do this, which should be much easier. If successful, You should see a file named **libePhotosynthesis.dylib** or **libePhotosynthesis.so** in the **build** folder. This file is needed for the BioCro build in the next step.
+- build the BioCro
+  ```
   cd models/biocro-dev
   ```
    Now, edit the following variables in the src/Makevars file, 
    
-   **conda_path** (where you installed the boost, sundial, etc), **ephoto_path** (the ephoto folder)
-   
-   **C_compiler, CPP_compiler**
+   - **boost_path** (where you installed the boost)
+   - **sundial_path** (where you installed the sundial)
+   - **ephoto_path** (the ephotosynthesis source code folder)
+
    ```
    #go back to models/biocro-dev
    R CMD INSTALL .
    ```
+   If successful, you should see an R pakcage named **BioCroEphoto**.
 ### Running
 Go back to the parent folder **BioCro-ePhotosynthesis**,
 ```
-Rscript test_ephoto.R
+Rscript run_biocro_ephoto.R
 ```
+This is just an example R script to run scenarios with different climate inputs. You should modify it or have your R script to run your own scenarios.
