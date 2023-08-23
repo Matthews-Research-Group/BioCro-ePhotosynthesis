@@ -1,21 +1,31 @@
 library(BioCroEphoto)
+#there is a parameter called sensitivity_sf in c3photo.cpp
+#it controls the scaling factor of certain enzymes.
+#double check what value it is for your run
+
 # turn this on to have increased Temperature and CO2
-test_T_and_CO2 = TRUE 
+test_T_and_CO2 = FALSE 
 test_T = FALSE 
 
-year <- '2015' # 
+year <- '2006' # 
+enzyme_sf = 1
+output_folder = paste0("results_r1_V2V13_sf",enzyme_sf,"_",year)  #the folder to save daily outputs
+dir.create(output_folder)
 
 weather_path = "weather_data/NASA_data/BioCroInputs/site_1_2010_2022.csv"
 
 ## Load weather data for growing season from specified year
-weather_path = paste0(weather_path,year) 
-weather = read.csv(paste0(weather_path,"/",year,"_Bondville_IL_daylength.csv")) 
+weather_all = read.csv(weather_path)
+colnames(weather_all)[colnames(weather_all)=="daylength"] = "day_length"
+weather = weather_all[weather_all$year==as.numeric(year),]
 #these dates were provided in MLM's paper
 #For other years, I simply used same dates took from this paper:https://doi.org/10.1093/jxb/erw435
 dates <- data.frame("year" = 2001:2006,
                     "sow"     = c(143, 152, 147, 149, 148, 148), 
                     "harvest" = c(291, 288, 289, 289, 270, 270))
 if(year<=2006){
+  weather_path_old = paste0("weather_data/",year,"_Bondville_IL_daylength.csv")
+  weather <- read.csv(weather_path_old)
   sowdate <- dates$sow[which(dates$year == year)] #
   harvestdate <- dates$harvest[which(dates$year == year)] #
   sd.ind <- which(weather$doy == sowdate)[1]
@@ -45,7 +55,6 @@ run_days  = harvestdate - sowdate  # Total number of days to run
 run_hours = run_days * 24 #Total hours
 start_day = sowdate #152 #starting day of year, minimal from the sowdate! 
 end_day   = start_day+run_days-1
-output_folder = paste0("results_ephoto_Pi30_T3CO2_sen10_",year)  #the folder to save daily outputs
 #------------------------
 
 if(start_day>sowdate) restart = TRUE
@@ -81,6 +90,8 @@ soybean_initial_state = soybean$initial_values
 
 # soybean_parameters
 soybean_parameters = soybean$parameters 
+soybean_parameters$enzyme_sf = enzyme_sf 
+#soybean_parameters$absorptivity_par = 0.4 
 #soybean_parameters$absorptivity_par = 0.4 
 #soybean_parameters$atmospheric_transmittance = 0.6 
 if(test_T_and_CO2){
