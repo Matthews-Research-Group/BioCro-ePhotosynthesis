@@ -9,3 +9,6 @@
 [submodule "models/ePhotosynthesis_C"]
 	path = models/ePhotosynthesis_C
 	url = https://github.com/cropsinsilico/ePhotosynthesis_C.git
+[submodule "models/BML-ePhotosynthesis"]
+	path = models/BML-ePhotosynthesis
+	url = https://github.com/Matthews-Research-Group/BML-ePhotosynthesis.git
