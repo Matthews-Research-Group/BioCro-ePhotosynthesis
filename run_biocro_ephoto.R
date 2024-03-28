@@ -1,4 +1,5 @@
-library(BioCroEphoto)
+library(BioCro)
+library(BMLePhoto)
 #there is a parameter called sensitivity_sf in c3photo.cpp
 #it controls the scaling factor of certain enzymes.
 #double check what value it is for your run
@@ -81,6 +82,10 @@ weather_sub <- weather[beg_ind:end_ind,]
 
 # steady_state_modules
 steady_state_modules <- soybean$direct_modules
+# now use BML's modules
+steady_state_modules[[10]] = "BMLePhoto:ten_layer_canopy_properties"
+steady_state_modules[[11]] = "BMLePhoto:ten_layer_c3_canopy"
+steady_state_modules[[12]] = "BMLePhoto:ten_layer_canopy_integrator"
 
 # derivative_modules
 derivative_modules <- soybean$differential_modules 
@@ -91,9 +96,8 @@ soybean_initial_state = soybean$initial_values
 # soybean_parameters
 soybean_parameters = soybean$parameters 
 soybean_parameters$enzyme_sf = enzyme_sf 
-#soybean_parameters$absorptivity_par = 0.4 
-#soybean_parameters$absorptivity_par = 0.4 
-#soybean_parameters$atmospheric_transmittance = 0.6 
+#latest version of BioCro no longer uses this, but we need it here cuz I'm using an older version
+soybean_parameters$water_stress_approach = 1 
 if(test_T_and_CO2){
  soybean_parameters$Catm = 600 
 }else{
@@ -129,7 +133,8 @@ for (i in 1:run_days){
                         soybean_parameters, 
                         weather_dayi, 
                         steady_state_modules,
-                        derivative_modules
+                        derivative_modules,
+			solver_params
                        )
    outfile_i = paste0(out_filename_prefix,"doy",weather_dayi$doy[1],".rds")
    saveRDS(result,outfile_i)
